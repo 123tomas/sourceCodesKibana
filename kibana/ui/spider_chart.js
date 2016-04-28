@@ -55,7 +55,7 @@ define(function (require) {
       var levels = 10;
       var maxValue = 1;
       var radians = 2 * Math.PI;
-      var opacityArea = 0.2;
+      var opacityArea = 0.35;
       var ToRight = 0;
       var TranslateX = 0;
       if (width < height) {
@@ -83,7 +83,7 @@ define(function (require) {
         j++;
       }
 
-      //Circular segments
+      //Net axis
       j = 0;
       levelsArray.forEach(function (number) {
         var levelFactor = factor * radius * ((j + 1) / levels);
@@ -105,6 +105,7 @@ define(function (require) {
 
       var series = 0;
 
+      //axis drawing
       var axis = g.selectAll('.axis')
         .data(allAxis)
         .enter()
@@ -132,7 +133,7 @@ define(function (require) {
           factorLegend * Math.sin(i * radians / total)) - 60 * Math.sin(i * radians / total);})
         .attr('y', function (d, i) {return h / 2 * (1 - Math.cos(i * radians / total)) - 20 * Math.cos(i * radians / total);});
 
-
+      //area drawing
       d.forEach(function (y, x) {
         var dataValues = [];
         g.selectAll('.nodes')
@@ -180,6 +181,7 @@ define(function (require) {
 
       series = 0;
 
+      //circles drawing
       d.forEach(function (y, x) {
         g.selectAll('.nodes')
           .data(y).enter()
@@ -211,7 +213,7 @@ define(function (require) {
               .style('fill-opacity', 0.1);
             g.selectAll(z)
               .transition(200)
-              .style('fill-opacity', .7);
+              .style('fill-opacity', .75);
           })
           .on('mouseout', function () {
             tooltip.transition(200)
@@ -244,7 +246,7 @@ define(function (require) {
      * @method addLegend
      * @param div {HTMLElement} Element to which legend is added
      * @param width,height {number} Width and height to calculate legend width and height
-     * @param nodesObjects {Array} Array of nodes which will be added to legend
+     * @param legendOptions {Array} Legend points
      */
     SpiderChart.prototype.addLegend = function (div, width, height, legendOptions) {
 
@@ -285,11 +287,11 @@ define(function (require) {
             .style('fill', function (j, i) {return color(series);})
             .on('mouseover', function () {
               var area = document.getElementById(this.id);
-              area.style.fillOpacity = 1;
+              area.style.fillOpacity = 0.75;
             })
            .on('mouseout', function () {
              var area = document.getElementById(this.id);
-             area.style.fillOpacity = 0.1;
+             area.style.fillOpacity = 0.35;
            });
           g.append('text')
             .attr('x', 15)
@@ -300,11 +302,11 @@ define(function (require) {
             .attr('id', function () {return 'radar-chart-serie' + series;})
             .on('mouseover', function () {
               var area = document.getElementById(this.id);
-              area.style.fillOpacity = 1;
+              area.style.fillOpacity = 0.75;
             })
            .on('mouseout', function () {
              var area = document.getElementById(this.id);
-             area.style.fillOpacity = 0.1;
+             area.style.fillOpacity = 0.35;
            })
            .text(d);
         });
